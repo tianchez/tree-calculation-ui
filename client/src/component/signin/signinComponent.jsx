@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom'
 import './signinComponent.css';
-import Constants from '../Constants';
+import UserService from '../../service/userService'
 import Cookies from 'universal-cookie';
 
 
@@ -30,28 +30,19 @@ class SigninComponent extends Component{
             username: this.state.username,
             password: this.state.password
         }
-        fetch(`${Constants.HOST_NAME}/login`, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(cred), // body data type must match "Content-Type" header
-        })
-        .then(response =>response.json())
-        .then(res=>{
+
+        UserService.signin(cred).then(res=>{
             if (!res.success){
                 alert(res.message);
                 return;
             }
-            const { history } = this.props;
             const cookies = new Cookies();
             var ONE_HOUR = 60 * 60 * 1000; /* ms */
             cookies.set('jwt_token', res.token, { path: '/', expires: new Date(Date.now() + ONE_HOUR) });
             cookies.set('firstname', res.firstName, { path: '/', expires: new Date(Date.now() + ONE_HOUR) });
             console.log(cookies.get('jwt_token')); 
             this.setState({loggeddIn: true})
-        }).catch(err => console.log(err)); // parses JSON response into native Javascript objects
+        }).catch(err => alert(err)); 
     }
 
     signupClicked(){

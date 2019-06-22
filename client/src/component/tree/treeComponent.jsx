@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import Constants from '../Constants';
 import Cookies from 'universal-cookie';
 import { Redirect } from 'react-router-dom'
-
+import TreeService from '../../service/treeService';
 import './treeComponent.css';
 
 class TreeComponent extends Component{
@@ -122,7 +121,7 @@ class TreeComponent extends Component{
         parent_map.set(this.tree_data.key, null);
         this.deserializeTree(data_map, this.tree_data, parent_map);
 
-        this.state = {value: '', result: '?', data_map: data_map, parent_map, parent_map,root_key: this.tree_data.key};     
+        this.state = {result: '?', data_map: data_map, parent_map, parent_map,root_key: this.tree_data.key};     
 
     }
 
@@ -220,23 +219,15 @@ class TreeComponent extends Component{
     calculateClicked(){
         let tree_node = this.serializeTree(this.state.root_key);
         if (!tree_node) tree_node = {};
-        let api_data = {
-            treeData: tree_node
-        }
-        fetch(`${Constants.HOST_NAME}/calculate`, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(api_data), // body data type must match "Content-Type" header
-        })
-        .then(response =>response.json())
+
+        TreeService.calcultaeSum(tree_node)
         .then(res=>{
-            if (res.success){
-                this.setState({result: res.sum});
+            if (!res.success){
+                alert(res.message);
+                return;
             }
-        }).catch(err => console.log(err)); // parses JSON response into native Javascript objects
+            this.setState({result: res.sum});
+        }).catch(err => alert(err)); 
     }
 
     logoutClicked(){
@@ -297,22 +288,22 @@ class TreeComponent extends Component{
         }
         else{
             return (
-            <div className="container">
-                <h5>Hello, {this.cookies.get('firstname')}</h5>
-                <h5>Get the sum in the longest path in the tree</h5>
-                <button className="tree-menu-button btn waves-effect waves-light" onClick={this.calculateClicked}>Calculate <i class="material-icons right">send</i></button>
-                <button className="tree-menu-button btn waves-effect waves-light red lighten-2" onClick={this.logoutClicked}>Log out</button>
-                <div className="result-area">
-                     <span>Result:</span> <span>{this.state.result}</span>
-                 </div>
-                <div className="tree">
-                     <ul>
-                         <li key={this.state.root_key}>
-                             {this.getTreeDOM(this.state.root_key)}
-                         </li>
-                     </ul>
-                 </div>
-            </div> 
+                <div className="container">
+                    <h5>Hello, {this.cookies.get('firstname')}</h5>
+                    <h5>Get the sum in the longest path in the tree</h5>
+                    <button className="tree-menu-button btn waves-effect waves-light" onClick={this.calculateClicked}>Calculate <i class="material-icons right">send</i></button>
+                    <button className="tree-menu-button btn waves-effect waves-light red lighten-2" onClick={this.logoutClicked}>Log out</button>
+                    <div className="result-area">
+                        <span>Result:</span> <span>{this.state.result}</span>
+                    </div>
+                    <div className="tree">
+                        <ul>
+                            <li key={this.state.root_key}>
+                                {this.getTreeDOM(this.state.root_key)}
+                            </li>
+                        </ul>
+                    </div>
+                </div> 
             )
         }
         

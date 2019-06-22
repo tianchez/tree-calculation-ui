@@ -4,9 +4,9 @@ import { HashRouter as Router, Route, Switch, Redirect, Link } from 'react-route
 import Cookies from 'universal-cookie';
 
 
-import TreeComponent from './treeComponent.jsx';
-import SigninComponent from './signinComponent.jsx';
-import SignupComponent from './signupComponent.jsx';
+import TreeComponent from './tree/treeComponent.jsx';
+import SigninComponent from './signin/signinComponent.jsx';
+import SignupComponent from './signup/signupComponent.jsx';
 
 
 
