@@ -11,7 +11,6 @@ Server: Node.js, Express.js, JSON Web Tokens, bcrypt.js, Mocha, MongoDB
 
 <p align='center'>
 <img src='https://github.com/tianchez/tree-calculation-ui/blob/master/doc/tree.png' width='400' alt='tree-screenshot'>
-<img src='https://github.com/tianchez/tree-calculation-ui/blob/master/doc/signin.png' width='400' alt='signin-screenshot'>
 </p>
 
 ## Prerequisites
