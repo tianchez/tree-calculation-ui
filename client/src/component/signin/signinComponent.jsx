@@ -73,8 +73,8 @@ class SigninComponent extends Component{
                         <input type="password" id='password' onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
-                        <button className="cred-button btn pink lighten-1 z-depth-0" onClick={this.loginClicked}>Login</button>
-                        <button className="cred-button btn pink lighten-1 z-depth-0" onClick={this.signupClicked}>Sign up</button>
+                        <button className="cred-button signin-button btn pink lighten-1 z-depth-0" onClick={this.loginClicked}>Login</button>
+                        <button className="cred-button signup-button btn pink lighten-1 z-depth-0" onClick={this.signupClicked}>Sign up</button>
                         <div className="center red-text">
                         </div>
                     </div>
